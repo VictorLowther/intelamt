@@ -49,7 +49,7 @@ func main() {
 	}
 	client = amt.NewClient(endpoint, username, password)
 	client.Debug = debug
-	if err := client.Identify; err != nil {
+	if err := client.Identify(); err != nil {
 		log.Fatalf("Failed to ID AMT endpoint: %v", err)
 	}
 	switch op {
@@ -71,7 +71,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("Error getting nic state: %v", err)
 		}
-		fmt.Printf("nic:\t%s\ndhcp:\t%s\nip:\t%s\nmask:\t%s\nmac:\t%s\n", nic, state.DHCPEnabled,
+		fmt.Printf("nic:\t%s\ndhcp:\t%v\nip:\t%s\nmask:\t%s\nmac:\t%s\n", nic, state.DHCPEnabled,
 			state.IPAddress, net.IP(state.SubnetMask), state.MACAddress)
 		if state.DefaultGateway != nil {
 			fmt.Printf("gw:\t%s\n", state.DefaultGateway)
