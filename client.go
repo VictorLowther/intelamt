@@ -9,14 +9,19 @@ import (
 	"github.com/VictorLowther/wsman"
 )
 
+// Client is a thin wrapper around the wsman client.
+// Pretty much all of the rest of the AMT methods hang off it for now.
 type Client struct {
 	*wsman.Client
 }
 
+// NewClient creates a new initialized client
 func NewClient(endpoint, username, password string) *Client {
 	return &Client{Client: wsman.NewClient(endpoint, username, password, true)}
 }
 
+// Identify checks that the endpoint we are talking to is a WSMAN
+// endpoint for an AMT firmware
 func (c *Client) Identify() error {
 	reply, err := c.Client.Identify()
 	if err != nil {

@@ -10,6 +10,8 @@ import (
 
 const etherPath = "http://intel.com/wbem/wscim/1/amt-schema/1/AMT_EthernetPortSettings"
 
+// NicState encapsulates the network adaptor state we want to show to
+// the rest of the world.
 type NicState struct {
 	DHCPEnabled    bool
 	DefaultGateway net.IP
@@ -39,6 +41,7 @@ func deviceString(device string) (string, error) {
 	}
 }
 
+// GetNicConfig gets the network configuration for a nic.
 func (c *Client) GetNicConfig(device string) (res *NicState, err error) {
 	instanceID, err := deviceString(device)
 	if err != nil {
@@ -96,6 +99,9 @@ func (c *Client) GetNicConfig(device string) (res *NicState, err error) {
 	return
 }
 
+// SetNicConfig sets the new configuration for a nic.  Note that it
+// can take up to 10 seconds to regain connectivity after changing the
+// state of the nic.
 func (c *Client) SetNicConfig(device string, settings *NicState) error {
 	instanceID, err := deviceString(device)
 	if err != nil {

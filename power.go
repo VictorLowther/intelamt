@@ -18,6 +18,8 @@ func (c *Client) findSystemEPR() *dom.Element {
 	return s.MustFirstTag("EndpointReference", "*", repl.AllBodyElements())
 }
 
+// GetChassisPower gets the current power state of the chassis that
+// the AMT firmware is managing.
 func (c *Client) GetChassisPower() (string, error) {
 	epr := c.findSystemEPR()
 	msg := c.Get("http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_AssociatedPowerManagementService")
@@ -44,6 +46,8 @@ func (c *Client) GetChassisPower() (string, error) {
 	}
 }
 
+// SetChassisPower sets the managed chassis to a particular state.
+// Currently we only handle "on" and "off"
 func (c *Client) SetChassisPower(state string) error {
 	var param string
 	switch state {
