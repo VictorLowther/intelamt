@@ -23,6 +23,7 @@ func init() {
 	flag.StringVar(&password, "p", "", "The password for the AMT endpoint")
 	flag.BoolVar(&debug, "debug", false, "Debug will dump all WSMAN communication with the AMT endpoint")
 	flag.StringVar(&op, "op", "", `The action to perform.  Can be one of:
+          probe
           powerOn
           powerOff
           powerCycle
@@ -53,6 +54,7 @@ func main() {
 		log.Fatalf("Failed to ID AMT endpoint: %v", err)
 	}
 	switch op {
+	case "probe":
 	case "powerOn":
 		client.SetChassisPower("on")
 	case "powerOff":
